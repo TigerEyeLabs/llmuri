@@ -1,0 +1,119 @@
+Internet-Draft:
+
+    Proposal for the "llm" (Large Language Model) URI Scheme
+
+URI schema names:
+
+    llm
+    llms
+
+
+Introduction:
+
+    Large Language Models have become ubiquitous in the AI world.
+
+    The absence of a standardized method for specifying and referencing
+    these models leads to fragmentation and complexity in their
+    integration and use.
+
+    This document proposes a new Uniform Resource Identifier (URI)
+    scheme, "llm" which aims to standardize the way in which
+    applications and users access and query LLMs, facilitating
+    interoperability, security, and efficiency.
+
+    A related "llms" scheme is identical but specifies LLM access
+    over a secure connection.
+
+Status:
+
+    permanent
+
+URI scheme syntax:
+
+    The "llm" URI scheme follows the generic URI syntax as specified
+    in RFC 3986. The scheme-specific syntax is as follows:
+
+        llm-specification:
+            llm:provider[@host[:port]]/model-name[?parameter-list]
+
+        parameter-list:
+            parm1=value1[&parm2=value2]...
+
+URI scheme semantics:
+
+    - Both "llm:" and "llms:" are supported schema types.
+      "llms:" indicates that the LLM service is hosted on a secure
+      connection (e.g.  "https:").  If the schema is not specified
+      but obvious from application context, an implementation may
+      assume the schema is "llm:".
+
+    - provider is the name of the LLM API or service.
+
+    - host is an optional hostname where the LLM service is
+      located.
+
+    - port is the service's port. A port specification of "mem"
+      means that the LLM will be accessed via an API in the
+      process.
+
+    - model-name is the name of the model to be executed.
+
+    - parameter-list is a list of model-specific parameters.
+
+Examples:
+
+    llm:example-provider/mymodel
+    llm:example-provider?temperature=0.2&max_tokens=100
+    llm:example-provider@example.com:11434/mymodel
+     
+Encoding considerations.
+    
+    URI characters in "llm" URIs are encoded according to RFC 3986.
+
+Local (in-process) LLMs.
+
+    The "mem" port specifier is used to indicate that the LLM is
+    running in the same process as the client.
+
+    llm:example-provider@:mem/mymodel
+
+    The "mem" specifier is not valid for "llms" URIs.
+
+Applications/protocols that use this URI scheme name:
+
+    Applications, APIs, and other systems that require interactions
+    with LLMs and related services.
+
+Interoperability considerations.
+
+    To ensure ease of interoperability, an MIT-licensed reference
+    implementation is provided at the site referenced below.
+
+Security considerations.
+
+    It is possible that some providers may allow access credentials
+    or other sensitive information to be included in the URI.  Care
+    should be taken to ensure this information is not exposed.
+    When possible, other means of authentication should be used.
+
+Contact.
+
+    Mark Harrison
+    TigerEye Labs
+    mark@tigereye.com
+      
+Author:
+
+    Mark Harrison
+    TigerEye Labs
+    mark@tigereye.com
+      
+References.
+
+    This document is available at:
+
+        https://github.com/marhar/llmuri/blob/main/ietf-draft.txt
+
+    A reference implementation of this specification is available at:
+
+        https://github.com/marhar/llmuri
